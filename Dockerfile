@@ -1,23 +1,11 @@
 FROM php:8.2-apache
 
-# Installer les dépendances système
 RUN apt-get update && apt-get install -y \
+    default-mysql-client \
     default-libmysqlclient-dev \
-    libzip-dev \
-    zip \
-    unzip \
-    && docker-php-ext-configure mysqli \
-    && docker-php-ext-install mysqli pdo pdo_mysql \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+    && docker-php-ext-install mysqli \
+    && docker-php-ext-enable mysqli
 
-# Activer le module Apache rewrite
-RUN a2enmod rewrite
-
-# Copier le projet
-COPY . /var/www/html/
-
-# Permissions
-RUN chown -R www-data:www-data /var/www/html
+COPY . /var/www/html
 
 EXPOSE 80
