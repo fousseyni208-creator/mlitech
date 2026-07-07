@@ -1,10 +1,9 @@
 FROM php:8.2-apache
 
-# Copier ton projet dans le serveur web
+RUN docker-php-ext-install mysqli pdo pdo_mysql
+
 COPY . /var/www/html/
 
-# Activer rewrite (utile pour PHP)
-RUN a2enmod rewrite
-
-# Permissions correctes
 RUN chown -R www-data:www-data /var/www/html
+
+EXPOSE 80
